@@ -35,6 +35,10 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+app.post('/cashin', function(req, res){
+console.log(req);
+res.send('OK')
+});
 
 const port = process.env.PORT || 5000;
 
