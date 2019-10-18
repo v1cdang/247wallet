@@ -95,8 +95,8 @@ router.post("/login", (req, res) => {
               success: true,
               token: "Bearer " + token
             });
-          }
-        );
+          });
+          res.status(200).send({ auth: true, token: token});
       } else {
         return res
           .status(400)

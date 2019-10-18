@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 
-class Dashboard extends Component {
+class Cashin extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -19,6 +19,12 @@ class Dashboard extends Component {
                         <h4>
                         <b>Cash In,</b> {user.name.split(" ")[0]}
                         </h4>
+                        <form action="/cashin" method="post">
+                            <select name="transactionType">
+                                <option value="cashin">Cash In</option>
+                                <option value="cashout">Cash Out</option>
+                            </select>
+                        </form>
                         <button
                         style={{
                             width: "140px",
@@ -37,3 +43,12 @@ class Dashboard extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    auth: state.auth
+  });
+
+export default connect(
+    mapStateToProps,
+    { logoutUser }
+  )(Cashin);
