@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const CashinSchema = new Schema({
-  withdrawalAmount: {
+  cashInAmount: {
     type: String,
     required: true
   },
-  withdrawalForm: {
+  cashInChannel: {
     type: String,
     required: true
   },
@@ -15,12 +15,12 @@ const CashinSchema = new Schema({
     verificationID: {type: String, default: ""},
     verificationDate: {type: Date}
   },
-  withdrawalDate: {
+  creationDate: {
     type: Date,
     default: Date.now
   },
   userId: {
-      type: Number,
+      type: String,
       required: true
   }
 });

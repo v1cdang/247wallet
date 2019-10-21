@@ -39,11 +39,13 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.post('/cashin', function(req, res){
+  let date = new Date();
+  let creationDate = date.getMonth() + '/' + date.getDate() +'/'+ date.getFullYear();
   const newCashin = new cashin({
-    withdrawalAmount: req.body.withdrawalAmount,
-    withdrawalForm: req.body.withdrawalForm,
+    cashInAmount: req.body.cashInAmount,
+    cashInChannel: req.body.cashInChannel,
     verificationDetails: {},
-    withdrawalDate: req.body.withdrawalDate,
+    creationDate: creationDate,
     userId: req.body.userId
   });
   newCashin

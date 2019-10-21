@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
+import {
+    Container, Col, Form,
+    FormGroup, Label, Input,
+    Button,
+  } from 'reactstrap';
+  
 
 class Cashin extends Component {
     onLogoutClick = e => {
@@ -13,31 +19,67 @@ class Cashin extends Component {
         const { user } = this.props.auth;
 
         return (
-            <div style={{ height: "75vh" }} className="container valign-wrapper">
-                <div className="row">
-                    <div className="landing-copy col s12 center-align">
-                        <h4>
-                        <b>Cash In,</b> {user.name.split(" ")[0]}
-                        </h4>
-                        <form action="/cashin" method="post">
-                            <select name="transactionType">
-                                <option value="cashin">Cash In</option>
-                                <option value="cashout">Cash Out</option>
+            <div>
+                <div style={{
+                width: "30%"
+            }}
+            >
+
+                </div>
+                <div style={{
+                    width: "70%"
+                }}>
+                    <Container className="formContainer">
+                    <Form className="form" method="POST" action="/cashin">
+                        <Col>
+                            <FormGroup>
+                            <Label for="cashInAmount">Cash In Amount</Label>
+                            <Input
+                                type="text"
+                                name="cashInAmount"
+                                id="cashInAmount"
+                                placeholder="Cash In Amount"
+                            />
+                            <Input
+                            type="hidden"
+                            name="userId"
+                            id="userId"
+                            value={user.id}
+                            />
+                            </FormGroup>
+                        </Col>
+                        <Col>
+                            <FormGroup>
+                            <Label for="examplePassword">Select Cash in Channel</Label>
+                            <select
+                                style={{
+                                    display: "block"
+                                }}
+                                name="cashInChannel"
+                                id="cashInChannel"
+                            >
+                                <option value="BANK">Bank Deposit</option>
+                                <option value="PAYMAYA">Paymaya</option>
+                                <option value="GCASH">GCash</option>
+                                <option value="COINSPH">Coins.PH</option>
+                                <option value="CREDITCARD">Credit Card</option>
                             </select>
-                        </form>
-                        <button
-                        style={{
-                            width: "140px",
-                            borderRadius: "3px",
-                            letterSpacing: "1.5px",
-                            marginTop: "1rem"
-                        }}
-                        onClick={this.onLogoutClick}
-                        className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                        >
-                        Logout
-                        </button>
-                    </div>
+                            </FormGroup>
+                        </Col>
+                        <Col>
+                            <FormGroup>
+                            <Label for="memberCode">Member Code</Label>
+                            <Input
+                                type="text"
+                                name="memberCode"
+                                id="memberCode"
+                                placeholder="Member Code"
+                            />
+                            </FormGroup>
+                        </Col>
+                        <Button>Submit</Button>
+                        </Form>
+                    </Container>
                 </div>
             </div>
         );
