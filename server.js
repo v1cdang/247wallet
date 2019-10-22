@@ -5,8 +5,10 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 const users = require("./routes/api/users");
+const transactions = require("./routes/api/transactions");
 
 const cashin = require("./models/CashinTransactions");
+const withdrawal = require("./models/WithdrawalTransactions")
 
 const app = express();
 
@@ -38,6 +40,8 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+app.use("/api/transactions", transactions);
+/*
 app.post('/cashin', function(req, res){
   let date = new Date();
   let creationDate = date.getMonth() + '/' + date.getDate() +'/'+ date.getFullYear();
@@ -49,11 +53,27 @@ app.post('/cashin', function(req, res){
     userId: req.body.userId
   });
   newCashin
-.save()
-.then(cashin => res.json(cashin))
-.catch(err => console.log(err));
+    .save()
+    .then(cashin => res.json(cashin))
+    .catch(err => console.log(err));
 });
 
+app.post('/withdrawal', function(req, res){
+  let date = new Date();
+  let creationDate = date.getMonth() + '/' + date.getDate() +'/'+ date.getFullYear();
+  const newWithdrawal = new withdrawal({
+    withdrawalAmount: req.body.withdrawalAmount,
+    withdrawFrom: req.body.withdrawFrom,
+    verificationDetails: {},
+    creationDate: creationDate,
+    userId: req.body.userId
+  });
+  newWithdrawal
+    .save()
+    .then(withdrawal => res.json(withdrawal))
+    .catch(err => console.log(err));
+});
+*/
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));

@@ -9,7 +9,7 @@ import {
   } from 'reactstrap';
   
 
-class Cashin extends Component {
+class MyAccount extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -86,7 +86,7 @@ class Cashin extends Component {
     }
 }
 
-Cashin.propTypes = {
+MyAccount.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
   };
@@ -98,4 +98,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { logoutUser }
-  )(Cashin);
+  )(MyAccount);

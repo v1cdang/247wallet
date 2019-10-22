@@ -12,6 +12,7 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Cashin from "./components/cashin/Cashin"
+import Withdrawal from "./components/withdrawal/Withdrawal"
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 
@@ -46,9 +47,10 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/cashin" component={Cashin} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/cashin" component={Cashin} />
+              <PrivateRoute exact path="/withdrawal" component={Withdrawal} />
             </Switch>
           </div>
         </Router>

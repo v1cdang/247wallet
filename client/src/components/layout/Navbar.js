@@ -22,7 +22,7 @@ class Navbar extends Component {
                 </Link>
                 &nbsp;
                 <Link
-                to="/cashout"
+                to="/withdrawal"
                 style={{
                     width: "140px",
                     borderRadius: "3px",
@@ -30,7 +30,7 @@ class Navbar extends Component {
                 }}
                 className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
-                Cash Out
+                Withdrawal
                 </Link>
                 &nbsp;
                 <Link

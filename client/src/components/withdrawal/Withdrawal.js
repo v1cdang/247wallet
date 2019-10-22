@@ -7,9 +7,9 @@ import {
     FormGroup, Label, Input,
     Button,
   } from 'reactstrap';
-  
 
-class Cashin extends Component {
+
+class Withdrawal extends Component {
     onLogoutClick = e => {
         e.preventDefault();
         this.props.logoutUser();
@@ -30,15 +30,15 @@ class Cashin extends Component {
                     width: "70%"
                 }}>
                     <Container className="formContainer">
-                    <Form className="form" method="POST" action="/cashin">
+                    <Form className="form" method="POST" action="/withdrawal">
                         <Col>
                             <FormGroup>
-                            <Label for="cashInAmount">Cash In Amount</Label>
+                            <Label for="withdrawalAmount">Withdrawal Amount</Label>
                             <Input
                                 type="text"
-                                name="cashInAmount"
-                                id="cashInAmount"
-                                placeholder="Cash In Amount"
+                                name="withdrawalAmount"
+                                id="withdrawalAmount"
+                                placeholder="Withdrawal Amount"
                             />
                             <Input
                             type="hidden"
@@ -50,13 +50,13 @@ class Cashin extends Component {
                         </Col>
                         <Col>
                             <FormGroup>
-                            <Label for="examplePassword">Select Cash in Channel</Label>
+                            <Label for="withdrawFrom">Withdrawal from</Label>
                             <select
                                 style={{
                                     display: "block"
                                 }}
-                                name="cashInChannel"
-                                id="cashInChannel"
+                                name="withdrawFrom"
+                                id="withdrawFrom"
                             >
                                 <option value="BANK">Bank Deposit</option>
                                 <option value="PAYMAYA">Paymaya</option>
@@ -77,6 +77,17 @@ class Cashin extends Component {
                             />
                             </FormGroup>
                         </Col>
+                        <Col>
+                            <FormGroup>
+                            <Label for="fullName">Full Name</Label>
+                            <Input
+                                type="text"
+                                name="fullName"
+                                id="fullName"
+                                placeholder="Full Name"
+                            />
+                            </FormGroup>
+                        </Col>
                         <Button>Submit</Button>
                         </Form>
                     </Container>
@@ -86,7 +97,7 @@ class Cashin extends Component {
     }
 }
 
-Cashin.propTypes = {
+Withdrawal.propTypes = {
     logoutUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
   };
@@ -98,4 +109,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { logoutUser }
-  )(Cashin);
+  )(Withdrawal);
