@@ -43,6 +43,10 @@ const MoneyXferSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  receivedDate: {
+    type: Date,
+    default: undefined
+  },
   userId: {
       type: String,
       required: true

@@ -51,7 +51,8 @@ router.post("/moneytransfer", (req, res) => {
     amountSent: req.body.amountSent,
     memberCode: req.body.memberCode,
     verificationDetails: {},
-    cashInDate: creationDate,
+    creationDate: creationDate,
+    receivedDate: '',
     userId: req.body.userId
   });
   newMoneyxfer
