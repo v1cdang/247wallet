@@ -2,12 +2,32 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Schema
-const CashinSchema = new Schema({
-  cashInAmount: {
+const MoneyXferSchema = new Schema({
+  senderName: {
     type: String,
     required: true
   },
-  cashInChannel: {
+  senderAddress: {
+    type: String,
+    required: true
+  },
+  senderPhone: {
+    type: String,
+    required: true
+  },
+  receiverName: {
+    type: String,
+    required: true
+  },
+  receiverAddress: {
+    type: String,
+    required: true
+  },
+  receiverPhone: {
+    type: String,
+    required: true
+  },
+  amountSent: {
     type: String,
     required: true
   },
@@ -29,4 +49,4 @@ const CashinSchema = new Schema({
   }
 });
 
-module.exports = Cashin = mongoose.model("cashin", CashinSchema);
+module.exports = MoneyXfer = mongoose.model("moneyxfer", MoneyXferSchema);

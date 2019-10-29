@@ -30,7 +30,7 @@ class Cashin extends Component {
                     width: "70%"
                 }}>
                     <Container className="formContainer">
-                    <Form className="form" method="POST" action="/cashin">
+                    <Form className="form" method="POST" action="/api/transactions/cashin">
                         <Col>
                             <FormGroup>
                             <Label for="cashInAmount">Cash In Amount</Label>

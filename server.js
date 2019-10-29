@@ -7,8 +7,6 @@ const jwt = require("jsonwebtoken");
 const users = require("./routes/api/users");
 const transactions = require("./routes/api/transactions");
 
-const cashin = require("./models/CashinTransactions");
-const withdrawal = require("./models/WithdrawalTransactions")
 
 const app = express();
 

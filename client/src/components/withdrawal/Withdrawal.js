@@ -30,7 +30,7 @@ class Withdrawal extends Component {
                     width: "70%"
                 }}>
                     <Container className="formContainer">
-                    <Form className="form" method="POST" action="/withdrawal">
+                    <Form className="form" method="POST" action="/api/transactions/withdrawal">
                         <Col>
                             <FormGroup>
                             <Label for="withdrawalAmount">Withdrawal Amount</Label>
