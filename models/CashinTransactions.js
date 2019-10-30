@@ -23,6 +23,10 @@ const CashinSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  referenceNum: {
+    type: String,
+    required: true
+  },
   userId: {
       type: String,
       required: true

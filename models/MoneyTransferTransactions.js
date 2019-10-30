@@ -47,6 +47,10 @@ const MoneyXferSchema = new Schema({
     type: Date,
     default: undefined
   },
+  referenceNum: {
+    type: String,
+    required: true
+  },
   userId: {
       type: String,
       required: true
