@@ -15,9 +15,8 @@ const CashinSchema = new Schema({
     type: String,
     required: true
   },
-  verificationDetails: {
-    verificationID: {type: String, default: ""},
-    verificationDate: {type: Date}
+  verificationID: {
+    type: String
   },
   creationDate: {
     type: Date,

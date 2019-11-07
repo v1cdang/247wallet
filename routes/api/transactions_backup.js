@@ -7,6 +7,15 @@ var crypto = require("crypto");
 const mongoose = require("mongoose");
 var sdk = require("paymaya-node-sdk");
 const axios = require("axios");
+var PayMayaSDK = sdk.PaymayaSDK;
+var Checkout = sdk.Checkout;
+var Contact = sdk.Contact;
+var Address = sdk.Address;
+var Buyer = sdk.Buyer;
+var ItemAmountDetails = sdk.ItemAmountDetails;
+var ItemAmount = sdk.ItemAmount;
+var Item = sdk.Item;
+var checkout = new Checkout();
 
 // DB Config
 const db = require("../../config/keys").mongoURI;
@@ -17,8 +26,30 @@ mongoose
     db,
     { useNewUrlParser: true }
   )
-  .then()
+  .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
+
+
+PayMayaSDK.initCheckout(
+  'pk_test_BcyJQeS41nputz7cA3Hh6D3j',
+  'sk-sk_test_7ESwkXHQiyjaFSuEWi7gEYZ9',
+  PayMayaSDK.ENVIRONMENT.SANDBOX
+);
+
+var callback = function(err, response) {
+  if(err) {
+     console.log(err);
+     return;
+  }
+  console.log(JSON.stringify(response));
+}
+
+
+
+/*
+
+*/
+
 
 
 // Load User model
@@ -37,7 +68,24 @@ async function findUser(userId) {
   });
 }
 
-function getUserToken(user, callback) {
+async function getToken(userId) {
+  try {
+    var user = await findUser(userId);
+    var result = await findProfileandGetToken(user);
+    console.log('RESULT IS : ' + result)
+  } catch (e) {
+    console.log(e)
+  }
+  
+}
+
+function setToken(t) {
+  console.log('Setting token to: ' + JSON.stringify(t));
+  token = t;
+  return token;
+}
+
+async function findProfileandGetToken(user) {
   request.post(getTokenUrl, {
     headers: {
       "Authorization": "Basic " + new Buffer('sk_test_7ESwkXHQiyjaFSuEWi7gEYZ9').toString("base64")
@@ -65,46 +113,40 @@ function getUserToken(user, callback) {
         }
       }
     }
-  }, function (error, response, body) {
-    if (error) {
-      return callback(error || {statusCode: response.statusCode});
-    }
-    return callback(null, body.data.id)
+  }, (error, res, body) => {
+    //console.log(res);
+    setToken(res.body.data.id);
   });
 }
 
 
-function setToken(t) {
-  token = t;
-  return 1;
-}
 
-async function getToken(userId, callback) {
-  var user = await findUser(userId);
-  getUserToken(user, function(err, body) {
-    if (err) {
-      return callback(err, null);
-    } else {
-      return callback(null, body);
-    }
-  })
-}
-
-
+// @route POST api/users/cashin
+// @desc Register user
+// @access Public
 router.post("/cashin", (req, resp) => {
   // Form validation
   let date = new Date();
   let month = ("0" + (date.getMonth() + 1)).slice(-2);
   let creationDate =  month + '/' + date.getDate() +'/'+ date.getFullYear();
   let referenceNum = crypto.randomBytes(20).toString('hex');
+  var addressOptions = {};
+  var contactOptions = {};
+  var buyerOptions = {};
+  var contact = new Contact();
+  var address = new Address();
+  var buyer = new Buyer();
   var cashInAmount = req.body.cashInAmount
-  getToken(req.body.userId, function(err, body) {
-    if (err) {
-      console.log(err)
-    } else {
-      token = body;
+
+
+  
+  
+  getToken(req.body.userId)
+  .then(() => {
+    console.log('TOKEN IS: ' + token)
+    if (!typeof token ==='undefined') {
       const newCashin = new cashin({
-        cashInAmount: req.body.cashInAmount,
+        cashInAmount: cashInAmount,
         cashInChannel: req.body.cashInChannel,
         memberCode: req.body.memberCode,
         verificationID: token,
@@ -112,14 +154,71 @@ router.post("/cashin", (req, resp) => {
         referenceNum: referenceNum,
         userId: req.body.userId
       });
+      
+    
       newCashin
         .save()
         .then(cashin => resp.json(cashin))
         .catch(err => console.log(err));
     }
-  });
-  console.log('TOK CASHIN:'+token)
+  })
+  .catch();
+  
+
+
+  
+  
 });
+
+// @route POST api/users/moneyxfer
+// @desc Register user
+// @access Public
+router.post("/moneytransfer", (req, res) => {
+  // Form validation
+  let date = new Date();
+  let creationDate = date.getMonth() + '/' + date.getDate() +'/'+ date.getFullYear();
+  let referenceNum = crypto.randomBytes(20).toString('hex');
+  const newMoneyxfer = new moneyxfer({
+    senderName: req.body.senderName,
+    senderAddress: req.body.senderAddress,
+    senderPhone: req.body.senderPhone,
+    receiverName: req.body.receiverName,
+    receiverAddress: req.body.receiverAddress,
+    receiverPhone: req.body.receiverPhone,
+    amountSent: req.body.amountSent,
+    memberCode: req.body.memberCode,
+    verificationDetails: {},
+    creationDate: creationDate,
+    referenceNum: referenceNum,
+    receivedDate: '',
+    userId: req.body.userId
+  });
+  newMoneyxfer
+    .save()
+    .then(moneyxfer => res.json(moneyxfer))
+    .catch(err => console.log(err));
+
+});
+
+router.post('/withdrawal', function(req, res){
+  let date = new Date();
+  let creationDate = date.getMonth() + '/' + date.getDate() +'/'+ date.getFullYear();
+  let referenceNum = crypto.randomBytes(20).toString('hex');
+  const newWithdrawal = new withdrawal({
+    withdrawalAmount: req.body.withdrawalAmount,
+    withdrawFrom: req.body.withdrawFrom,
+    verificationDetails: {},
+    creationDate: creationDate,
+    referenceNum: referenceNum,
+    userId: req.body.userId
+  });
+  newWithdrawal
+    .save()
+    .then(withdrawal => res.json(withdrawal))
+    .catch(err => console.log(err));
+});
+
+
 module.exports = router;
 
 /** PAYMAYA CODE
